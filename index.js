@@ -35,6 +35,12 @@ async function run() {
           const result=await productsCollection.insertOne(service)
         res.send(result)
       })
+        //get
+        app.get('/products',async(req,res)=>{
+            const cursor = productsCollection.find({});
+            const servertest=await cursor.toArray();
+            res.send(servertest)
+        })
   } 
   
   finally {
