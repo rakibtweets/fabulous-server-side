@@ -21,6 +21,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
+    // arif code here
 
     await client.connect();
   } finally {
@@ -28,7 +29,6 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
 
 app.get('/', (req, res) => {
   res.send('Running products Server');
