@@ -49,6 +49,22 @@ async function run() {
       const result = await usersCollection.insertOne(user);
       res.json(result);
     });
+
+    // post blogs
+    app.post('/blogs', async (req, res) => {
+      const service = req.body;
+      console.log('hit the post api', service);
+      const result = await blogsCollection.insertOne(service);
+      res.send(result);
+    });
+
+    //get blog
+    app.get('/blogs', async (req, res) => {
+      const cursor = blogsCollection.find({});
+      const servertest = await cursor.toArray();
+      res.send(servertest);
+    });
+
     // update user to database
 
     app.put('/users', async (req, res) => {
