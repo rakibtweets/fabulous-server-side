@@ -20,30 +20,50 @@ const client = new MongoClient(uri, {
 });
 
 async function run() {
-    try {
+  try {
     // arif code here
 
     await client.connect();
-    const database = client.db("ProductsApi");
-    const productsCollection  = database.collection("products");
+    const database = client.db('ProductsApi');
+    const usersCollection = database.collection('users');
 
-     // post
-     app.post('/products',async(req,res)=>{
-        
-        const service=req.body
-        console.log('hit the post api', service);
-          const result=await productsCollection.insertOne(service)
-        res.send(result)
-      })
-        //get
-        app.get('/products',async(req,res)=>{
-            const cursor = productsCollection.find({});
-            const servertest=await cursor.toArray();
-            res.send(servertest)
-        })
-  } 
-  
-  finally {
+    const productsCollection = database.collection('products');
+
+    // post
+    app.post('/products', async (req, res) => {
+      const service = req.body;
+      console.log('hit the post api', service);
+      const result = await productsCollection.insertOne(service);
+      res.send(result);
+    });
+    //get
+    app.get('/products', async (req, res) => {
+      const cursor = productsCollection.find({});
+      const servertest = await cursor.toArray();
+      res.send(servertest);
+    });
+
+    // post user
+    app.post('/users', async (req, res) => {
+      const user = req.body;
+      const result = await usersCollection.insertOne(user);
+      res.json(result);
+    });
+    // update user to database
+
+    app.put('/users', async (req, res) => {
+      const user = req.body;
+      const filter = { email: user.email };
+      const options = { upsert: true };
+      const updateDoc = { $set: user };
+      const result = await usersCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.json(result);
+    });
+  } finally {
     //   await client.close();
   }
 }
