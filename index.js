@@ -26,7 +26,9 @@ async function run() {
     await client.connect();
     const database = client.db("ProductsApi");
     const productsCollection  = database.collection("products");
-
+     const blogsdata = client.db("blogsApi");
+    const blogsCollection  = blogsdata.collection("blogs");
+    
      // post
      app.post('/products',async(req,res)=>{
         
@@ -38,6 +40,20 @@ async function run() {
         //get
         app.get('/products',async(req,res)=>{
             const cursor = productsCollection.find({});
+            const servertest=await cursor.toArray();
+            res.send(servertest)
+        })
+     // post
+     app.post('/blogs',async(req,res)=>{
+        
+        const service=req.body
+        console.log('hit the post api', service);
+          const result=await blogsCollection.insertOne(service)
+        res.send(result)
+      })
+        //get
+        app.get('/blogs',async(req,res)=>{
+            const cursor = blogsCollection.find({});
             const servertest=await cursor.toArray();
             res.send(servertest)
         })
