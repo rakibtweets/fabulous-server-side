@@ -112,6 +112,21 @@ async function run() {
       res.json(result);
     });
 
+    //manage All Orders api
+    app.get('/manageAllOrders', async (req, res) => {
+      const cusor = myBuyingWatchCollection.find({});
+      const result = await cusor.toArray();
+      res.send(result);
+    });
+
+    // DELETE MyBooking api
+    app.delete('/deleteOrders/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await myBuyingWatchCollection.deleteOne(query);
+      res.send(result);
+    });
+
     //get admin
     app.get('/users/:email', async (req, res) => {
       const email = req.params.email;
