@@ -127,6 +127,14 @@ async function run() {
       res.send(result);
     });
 
+    //POST api for my buying list
+    app.post('/myBuyingList/:email', async (req, res) => {
+      const email = req.params.email;
+      const myBookingInfo = req.body;
+      const result = await myBuyingWatchCollection.insertOne(myBookingInfo);
+      res.json(result);
+    }); 
+
     //get admin
     app.get('/users/:email', async (req, res) => {
       const email = req.params.email;
